@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useMemo } from 'react'
-import marrigeCardPdf from '../assets/Ajit.pdf'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { Calendar, Clock, MapPin, Heart } from 'lucide-react'
@@ -8,11 +7,15 @@ const WeddingCard = () => {
   const cardRef = useRef(null)
   const textRef = useRef(null)
   const flowerRef = useRef(null)
-  
+
   // Map configuration: paste the exact Google Maps EMBED url below for precise rendering
   const MAPS_APP_URL = 'https://maps.app.goo.gl/W3mSnY7zcXGDyCTV9'
   // Embedded map removed per request; keep only external link button
 
+  // External PDF link (Google Drive)
+  const PDF_URL = 'https://drive.google.com/file/d/10R93L5G-SQSKAApwYZDjePHE1TAB3V0I/view?usp=sharing'
+  // Ganesha image URL (Google Drive)
+  const GANESH_URL = 'https://res.cloudinary.com/dyjxnbfpx/image/upload/v1761816488/2e969bef-0614-473c-b83b-530aa71f4c69.png'
 
   const events = useMemo(() => ([
     {
@@ -65,6 +68,9 @@ const WeddingCard = () => {
   // Auto-rotate removed: showing all events sequentially
 
   useEffect(() => {
+    // Ensure page starts at top when this component mounts
+    if (typeof window !== 'undefined') window.scrollTo(0, 0)
+
     // GSAP animations with guards to prevent invisible state
     const cardEl = cardRef.current
     const textEl = textRef.current
@@ -113,19 +119,23 @@ const WeddingCard = () => {
     <div className="min-h-screen w-full bg-linear-to-br from-gray-900 via-black to-gray-800 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Subtle floating accents */}
       <div ref={flowerRef} className="absolute inset-0 pointer-events-none opacity-30">
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute h-px bg-linear-to-r from-transparent via-white/10 to-transparent"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 200 + 120}px`
-            }}
-            animate={{ opacity: [0, 0.5, 0], scaleX: [0.6, 1, 0.6] }}
-            transition={{ duration: 6 + Math.random() * 4, repeat: Infinity }}
-          />
-        ))}
+        {useMemo(() => {
+          const accents = Array.from({ length: 8 }).map(() => ({
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            width: `${Math.random() * 200 + 120}px`,
+            duration: 6 + Math.random() * 4,
+          }))
+          return accents.map((a, i) => (
+            <motion.div
+              key={i}
+              className="absolute h-px bg-linear-to-r from-transparent via-white/10 to-transparent"
+              style={{ left: a.left, top: a.top, width: a.width }}
+              animate={{ opacity: [0, 0.5, 0], scaleX: [0.6, 1, 0.6] }}
+              transition={{ duration: a.duration, repeat: Infinity }}
+            />
+          ))
+        }, [])}
       </div>
 
       {/* Main Card */}
@@ -143,13 +153,13 @@ const WeddingCard = () => {
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
-            transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
-            className="w-28 h-28 mx-auto mb-3"
+            transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+            className="w-36 h-36 mx-auto mb-4 relative z-10"
           >
-            <img 
-              src="https://png.pngtree.com/png-clipart/20250520/original/pngtree-cartoon-ganesha-illustration-png-image_21036202.png"
+            <img
+              src={GANESH_URL}
               alt="Lord Ganesha"
-              className="w-full h-full object-contain drop-shadow"
+              className="w-full h-full object-contain drop-shadow-lg"
             />
           </motion.div>
 
@@ -172,12 +182,9 @@ const WeddingCard = () => {
             शुभ विवाह विवरण
           </motion.h1>
 
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: '120px' }}
-            transition={{ delay: 0.8, duration: 0.7 }}
-            className="h-1 mx-auto rounded-full -mt-6"
-            style={{ background: `linear-gradient(90deg, ${themeColors[0]}, ${themeColors[1]})` }}
+          <div
+            className="h-1 mx-auto rounded-full mt-3"
+            style={{ width: '120px', background: `linear-gradient(90deg, ${themeColors[0]}, ${themeColors[1]})` }}
           />
         </div>
 
@@ -194,44 +201,44 @@ const WeddingCard = () => {
           </motion.div>
 
           <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ delay: 1.5 }}
-                  className="flex items-center justify-center gap-6 my-4"
-                >
-                  <div className="h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent w-24"></div>
-                  <div className="flex items-center gap-3">
-                    <motion.div
-                      animate={{ 
-                        scale: [1, 1.2, 1],
-                        rotate: [0, 180, 360]
-                      }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                      className="text-pink-400"
-                    >
-                      <Heart size={28} />
-                    </motion.div>
-                    <motion.span 
-                      className="text-sm font-semibold text-pink-300 tracking-wide"
-                      animate={{ opacity: [0.8, 1, 0.8] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      संग
-                    </motion.span>
-                    <motion.div
-                      animate={{ 
-                        scale: [1, 1.2, 1],
-                        rotate: [0, -180, -360]
-                      }}
-                      transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
-                      className="text-pink-400"
-                    >
-                      <Heart size={28} />
-                    </motion.div>
-                  </div>
-                  <div className="h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent w-24"></div>
-                </motion.div>
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ delay: 1.5 }}
+            className="flex items-center justify-center gap-6 my-4"
+          >
+            <div className="h-px bg-linear-to-r from-transparent via-pink-400 to-transparent w-24"></div>
+            <div className="flex items-center gap-3">
+              <motion.div
+                animate={{
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 180, 360]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="text-pink-400"
+              >
+                <Heart size={28} />
+              </motion.div>
+              <motion.span
+                className="text-sm font-semibold text-pink-300 tracking-wide"
+                animate={{ opacity: [0.8, 1, 0.8] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                संग
+              </motion.span>
+              <motion.div
+                animate={{
+                  scale: [1, 1.2, 1],
+                  rotate: [0, -180, -360]
+                }}
+                transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
+                className="text-pink-400"
+              >
+                <Heart size={28} />
+              </motion.div>
+            </div>
+            <div className="h-px bg-linear-to-r from-transparent via-pink-400 to-transparent w-24"></div>
+          </motion.div>
           <motion.div
             initial={{ x: 60, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -302,7 +309,7 @@ const WeddingCard = () => {
                 Google Maps पर खोलें
               </motion.a>
               <motion.a
-                href={marrigeCardPdf}
+                href={PDF_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-block px-4 py-2 rounded-lg text-sm font-semibold"
