@@ -176,7 +176,7 @@ const WeddingCard = () => {
             initial={{ width: 0 }}
             animate={{ width: '120px' }}
             transition={{ delay: 0.8, duration: 0.7 }}
-            className="h-1 mx-auto rounded-full -mt-8"
+            className="h-1 mx-auto rounded-full -mt-6"
             style={{ background: `linear-gradient(90deg, ${themeColors[0]}, ${themeColors[1]})` }}
           />
         </div>
@@ -187,7 +187,7 @@ const WeddingCard = () => {
             initial={{ x: -60, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.9 }}
-            className="mt-8 md:mt-14"
+            className="mt-6 md:mt-14"
             whileHover={{ scale: 1.04 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-yellow-400 hover:text-yellow-300 transition-colors" style={{ fontFamily: 'serif' }}>अजीत</h2>
@@ -198,7 +198,7 @@ const WeddingCard = () => {
                   animate={{ scale: 1 }}
                   whileHover={{ scale: 1.05 }}
                   transition={{ delay: 1.5 }}
-                  className="flex items-center justify-center gap-6 my-6"
+                  className="flex items-center justify-center gap-6 my-4"
                 >
                   <div className="h-px bg-gradient-to-r from-transparent via-pink-400 to-transparent w-24"></div>
                   <div className="flex items-center gap-3">
